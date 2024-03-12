@@ -5,6 +5,7 @@
   "projectType": "application",
   "targets": {
     "build": {
+      "dependsOn": ["swagger"],
       "executor": "@nx/esbuild:esbuild",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
@@ -15,7 +16,7 @@
         "bundle": false,
         "main": "apps/backend/src/main.ts",
         "tsConfig": "apps/backend/tsconfig.app.json",
-        "assets": ["apps/backend/src/assets"],
+        "assets": ["apps/backend/src/assets/*"],
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,
@@ -55,6 +56,9 @@
     "docker-build": {
       "dependsOn": ["build"],
       "command": "docker build -f apps/backend/Dockerfile . -t backend"
+    },
+    "swagger": {
+      "command": "cd apps/backend && node src/swagger.js && cd -"
     }
   },
   "tags": []

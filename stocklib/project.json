@@ -1,0 +1,12 @@
+{
+  "name": "stocklib",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "stocklib/src",
+  "projectType": "library",
+  "targets": {
+    "generateprismadb": {
+      "command": "cd stocklib && export DATABASE_URL=postgresql://nxsuperuser:keepkalmandpanik@localhost:5432/stockpriceuser && npx prisma db push && cd -"
+    }
+  },
+  "tags": []
+}

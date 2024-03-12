@@ -1,0 +1,22 @@
+version: '3.9'
+services:
+  backend:
+    build:
+      dockerfile: ./apps/backend/Dockerfile
+      context: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - stockpricedb
+  stockpricedb:
+    image: postgres:latest
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: nxsuperuser
+      POSTGRES_PASSWORD: keepkalmandpanik
+      POSTGRES_DB_NAMES: stockpriceuser  
+networks:
+  default:
+    name: dev_network
+    driver: bridge
