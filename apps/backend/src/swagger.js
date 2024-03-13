@@ -18,6 +18,12 @@ const options = {
     ],
   },
   apis: ['**/*.js'],
+
+  definitions: {
+    SearchResult: {
+      
+    }
+  }
 };
 
 const outputFile = './assets/swagger_output.json';

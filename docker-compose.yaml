@@ -15,7 +15,7 @@ services:
     environment:
       POSTGRES_USER: nxsuperuser
       POSTGRES_PASSWORD: keepkalmandpanik
-      POSTGRES_DB_NAMES: stockpriceuser  
+      POSTGRES_DB_NAMES: stockpriceuser
 networks:
   default:
     name: dev_network

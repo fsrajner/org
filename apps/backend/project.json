@@ -5,18 +5,27 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "dependsOn": ["swagger"],
+      "dependsOn": [
+        "stocklib:generateprismaclient",
+        "swagger"
+      ],
       "executor": "@nx/esbuild:esbuild",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "defaultConfiguration": "production",
       "options": {
         "platform": "node",
         "outputPath": "dist/apps/backend",
-        "format": ["cjs"],
+        "format": [
+          "cjs"
+        ],
         "bundle": false,
         "main": "apps/backend/src/main.ts",
         "tsConfig": "apps/backend/tsconfig.app.json",
-        "assets": ["apps/backend/src/assets/*"],
+        "assets": [
+          "apps/backend/src/assets/*"
+        ],
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,
@@ -51,10 +60,16 @@
         "production": {
           "buildTarget": "backend:build:production"
         }
-      }
+      },
+      "dependsOn": [
+        "stocklib:generateprismadb",
+        "swagger"
+      ]
     },
     "docker-build": {
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "command": "docker build -f apps/backend/Dockerfile . -t backend"
     },
     "swagger": {

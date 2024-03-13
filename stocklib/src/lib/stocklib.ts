@@ -1,5 +1,5 @@
 import { PrismaClient, Stock, StockPrice } from '@prisma/client'
-import { getResponse } from './finnhub'
+import { QuoteResponse, SearchResponse, getResponse } from './finnhub'
 
 const EMAWindow = 10
 const multiplier = (2 / (EMAWindow + 1))
@@ -47,17 +47,7 @@ export async function createStock(prisma: PrismaClient, stockName: string) {
   } catch (error) {
     // stock not in db
 
-    const { count, result } = await getResponse<{
-      "count": number,
-      "result": [
-        {
-          "description": string,
-          "displaySymbol": string,
-          "symbol": string,
-          "type": string
-        },
-      ]
-    }>("search", {
+    const { count, result } = await getResponse<SearchResponse>("search", {
       "q": stockName
     })
 
@@ -80,14 +70,7 @@ export async function updateStockPrice(prisma: PrismaClient, stockName: string) 
 
   // pc is previous close price
   // c is current, for details see https://finnhub.io/docs/api/quote
-  const result = await getResponse<{
-    "c": number,
-    "h": number,
-    "l": number,
-    "o": number,
-    "pc": number,
-    "t": number,
-  }>("quote", {
+  const result = await getResponse<QuoteResponse>("quote", {
     "symbol": stockName
   })
 
@@ -154,4 +137,28 @@ export async function updateObservedStockPrices(prisma: PrismaClient) {
   for (const stock of stocks) {
     await updateStockPrice(prisma, stock.name)
   }
+}
+
+export async function searchStock(searchString: string) {
+  const { count, result } = await getResponse<SearchResponse>("search", {
+    "q": searchString
+  })
+
+  return result
+}
+
+export async function getChartData(prisma: PrismaClient, stockName: string) {
+  const stock = await getStock(prisma, stockName)
+
+  const stockPrices = await prisma.stockPrice.findMany({
+    orderBy: {
+      createdAt: "desc"
+    },
+    take: EMAWindow,
+    where: {
+      stockId: stock.id
+    }
+  })
+
+  return stockPrices
 }

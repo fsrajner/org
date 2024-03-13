@@ -1,0 +1,18 @@
+FROM docker.io/node:lts-alpine
+
+ENV HOST=0.0.0.0
+ENV PORT=4000
+WORKDIR /app
+
+RUN addgroup --system frontend && \
+          adduser --system -G frontend frontend
+
+COPY apps/frontend/ .
+COPY package.json package.json 
+RUN chown -R frontend:frontend .
+
+# You can remove this install step if you build with `--bundle` option.
+# The bundled output will include external dependencies.
+RUN npm --omit=dev -f install
+RUN npm i @nx/next
+CMD [ "./node_modules/.bin/next start" ]

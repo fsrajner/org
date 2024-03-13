@@ -1,5 +1,26 @@
 import axios from 'axios';
 import { ErrorResponse } from './stocklib';
+
+export interface SearchResponse {
+    "count": number,
+    "result":
+    {
+        "description": string,
+        "displaySymbol": string,
+        "symbol": string,
+        "type": string
+    }[]
+}
+
+export interface QuoteResponse {
+    "c": number,
+    "h": number,
+    "l": number,
+    "o": number,
+    "pc": number,
+    "t": number,
+}
+
 export async function getResponse<T>(path: string, params: any): Promise<T> {
     try {
         const response = await axios.get(`https://finnhub.io/api/v1/${path}`, {
@@ -14,7 +35,7 @@ export async function getResponse<T>(path: string, params: any): Promise<T> {
                 code: 500,
                 message: response.data.error
             })
-        
+
         return response.data as T;
     } catch (error) {
         console.log(JSON.stringify(error))
