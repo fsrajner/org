@@ -76,7 +76,7 @@ export function isParameterObject(param: unknown) {
     return true;
 }
 
-let _baseUrl = '/api';
+let _baseUrl = '';
 /*
   Returns the base URL for http requests
 */

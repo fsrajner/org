@@ -12,6 +12,11 @@
     },
     "generate-api": {
       "command": "cd apps/frontend && npx react-query-swagger /tanstack /input:../backend/src/assets/swagger_output.json /output:src/app/api/axios-client.ts /template:Axios && cd -"
+    },
+    "build": {
+      "dependsOn": [
+        "generate-api"
+      ]
     }
   },
   "tags": []

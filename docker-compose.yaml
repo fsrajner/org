@@ -16,6 +16,15 @@ services:
       POSTGRES_USER: nxsuperuser
       POSTGRES_PASSWORD: keepkalmandpanik
       POSTGRES_DB_NAMES: stockpriceuser
+  frontend:
+    build:
+      dockerfile: ./apps/frontend/Dockerfile
+      context: .
+    ports:
+      - "4000:4000"
+    depends_on:
+      - backend
+      - stockpricedb
 networks:
   default:
     name: dev_network

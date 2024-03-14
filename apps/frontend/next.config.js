@@ -19,7 +19,8 @@ const nextConfig = {
         destination: 'http://localhost:3000/:path*',
       }
     ]
-  }
+  },
+  "output": 'standalone'
 };
 
 const plugins = [

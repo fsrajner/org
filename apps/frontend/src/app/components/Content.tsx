@@ -5,9 +5,12 @@ import {
 } from "@nextui-org/autocomplete";
 import { Query } from "../api/axios-client";
 import { useState } from "react";
-import CanvasJSReact from '@canvasjs/react-charts';
+import dynamic from "next/dynamic";
 
-var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+const CanvasJSChart = dynamic(() => import("@canvasjs/react-charts").then((mod) => {
+    const chart = mod.default.CanvasJSChart
+    return chart
+}), { ssr: false }) as any;
 
 export default function Content() {
     const [symbol, setSymbol] = useState<string>("")
